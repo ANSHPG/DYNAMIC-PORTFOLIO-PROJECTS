@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,1000;1,9..40,400;1,9..40,500&family=Do+Hyeon&family=Manrope:wght@200;300;400;500;600;700;800&family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Roboto:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- google fonts-->
+    <style>
+        * {
+            margin: 0;
+            padding: 0%;
+            box-sizing: border-box;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ------------arrow-circle------------ */
+        #arrow-circle {
+            width: 12px;
+            height: 12px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 9999;
+            transition: cubic-bezier(0.19, 1, 0.22, 1) 0.7s;
+            transform: translate(17.7vw, 19.6vw);
+            opacity: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cursor-content {
+            color: #000000;
+            font-size: 16px;
+            font-weight: 600;
+            align-self: center;
+            opacity: 0;
+        }
+
+        #main-second {
+            background-color: #000000;
+            padding-top: 200px;
+            padding-right: 12vw;
+            padding-left: 2.9296875vw;
+            /* padding-bottom: 200px; */
+            width: 100%;
+            /* height: 100vh; */
+        }
+
+        .project {
+            position: relative;
+            width: 100%;
+            border-top: 1px solid #a3a3a3;
+
+            padding: 3vw 0 3vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* background-color: red; */
+        }
+
+        .project-content {
+            font-size: 7.3vw;
+            letter-spacing: 6px;
+            font-weight: 500;
+            color: #ffffff;
+            opacity: 0.6;
+        }
+
+        #project-year {
+            font-size: 1vw;
+            letter-spacing: 1px;
+            font-weight: 500;
+            opacity: 1;
+            color: #ffffff;
+        }
+
+        .project img {
+            z-index: 9;
+            position: absolute;
+            width: 40%;
+            opacity: 0;
+        }
+
+        .project-last {
+            border-top: 1px solid #a3a3a3;
+            padding-bottom: 250px;
+        }
+    </style>
+    <link rel="stylesheet" href="locomotive.css">
+
+</head>
+
+<body>
+
+    <div id="arrow-circle">
+        <span class="cursor-content">view</span>
+    </div>
+
+    <div class="main">
+        <div id="main-second">
+            <div class="project project-1">
+                <span class="project-content project-content-1">BTS X ANSHP</span>
+                <img class="asset-1" src="assests/BTS X ANSHP.png" alt="BTS X ANSHP">
+                <span id="project-year" class="project-year-1">2023</span>
+            </div>
+            <div class="project project-2">
+                <span class="project-content project-content-2">ANSHPCAST</span>
+                <img class="asset-2" src="assests\ANSHP-CAST-2.png" alt="ANSHPCAST">
+                <span id="project-year" class="project-year-2">2023</span>
+            </div>
+            <div class="project project-3">
+                <span class="project-content project-content-3">SPHERE</span>
+                <img class="asset-3" src="assests\SPHERE.png" alt="SPHERE">
+                <span id="project-year" class="project-year-3">2023</span>
+            </div>
+            <div class="project project-4">
+                <span class="project-content project-content-4">SPOTIFY</span>
+                <img class="asset-4" src="assests\SPOTIFY.png" alt="SPOTIFY">
+                <span id="project-year" class="project-year-4">2023</span>
+            </div>
+            <div class="project-last"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+        integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
+
+    <script>
+        const scroll = new LocomotiveScroll({
+            el: document.querySelector('.main'),
+            smooth: true
+        });
+
+        // arrow-circle-skew
+        let timeout;
+
+        let scaleX = 1;
+        let scaleY = 1;
+
+        let previousX = 0;
+        let previousY = 0;
+
+        function cursor_skew() {
+            window.addEventListener("mousemove", function (details) {
+                clearTimeout(timeout);
+
+                scaleX = gsap.utils.clamp(0.8, 1.2, Math.abs(details.clientX - previousX));
+                scaleY = gsap.utils.clamp(0.8, 1.2, Math.abs(details.clientY - previousY));
+
+
+                previousX = details.clientX;
+                previousY = details.clientY;
+
+                move_cursor(scaleX, scaleY);
+
+                timeout = setTimeout(function () {
+                    document.querySelector("#arrow-circle").style.transform = `translate(${details.clientX}px,${details.clientY}px) scale(1,1)`;
+                }, 100)
+            })
+        }
+        cursor_skew();
+
+
+
+        let positionX;
+        let positionY;
+        let cursor = document.querySelector("#arrow-circle");
+
+        window.addEventListener("mousemove", function (details) {
+            positionX = details.clientX;
+            positionY = details.clientY;
+        })
+
+        function move_cursor(sclaex, scaley) {
+            cursor.style.transform = `translate(${positionX}px, ${positionY}px) scale(${sclaex}, ${scaley})`;
+        }
+
+
+        // project - 1
+
+        let address = document.querySelector(".project-1");
+        let address_1 = document.querySelector(".project-content-1");
+        let asset_1 = document.querySelector(".asset-1");
+        let cursor_content = document.querySelector(".cursor-content");
+        let year = document.querySelector(".project-year-1");
+
+        let control = 2;
+        let position_previousX = 0;
+        let rotate_diff = 0;
+
+
+        let img_value = 0;
+
+        function openLink() {
+            address.addEventListener("click", function () { window.open("https://github.com/ANSHPG/Chordopolis-ANSHP", "_blank"); })
+        }
+        openLink();
+        function animate(value) {
+            if (value == 1) {
+                gsap.to(address_1, {
+                    opacity: 0.3,
+                    x: '40',
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                document.documentElement.style.cursor = 'none';
+
+                let position_diffX = positionX - address.getBoundingClientRect().left - (asset_1.getBoundingClientRect().width / 2 - 30); // - 165
+                let position_diffY = positionY - address.getBoundingClientRect().top - (asset_1.getBoundingClientRect().height / 2 - 30);  // - 122
+
+                rotate_diff = positionX - position_previousX;
+                position_previousX = positionX;
+
+                gsap.to(asset_1, {
+                    opacity: 1,
+                    ease: Power1,
+                    top: position_diffY,
+                    left: position_diffX,
+                    rotate: gsap.utils.clamp(-15, 15, rotate_diff)
+                })
+
+                gsap.to(year, {
+                    opacity: 0.3,
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(cursor, {
+                    width: 60,
+                    height: 60,
+                    ease: Power3,
+                    duration: 0.3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 1,
+                    ease: Power3,
+                    duration: 0.3
+                })
+            }
+            else {
+
+                document.documentElement.style.cursor = 'auto';
+
+                gsap.to(address_1, {
+                    opacity: 0.6,
+                    x: '0',
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(asset_1, {
+                    opacity: 0,
+                    ease: Power1
+                })
+
+                gsap.to(year, {
+                    opacity: 1,
+                    ease: Power3
+                })
+
+                gsap.to(cursor, {
+                    width: 12,
+                    height: 12,
+                    ease: Power3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 0,
+                    ease: Power3,
+                })
+            }
+        }
+
+        function project1() {
+
+            let rangeY_1 = address.getBoundingClientRect().top;
+            let rangeY_2 = rangeY_1 + address.getBoundingClientRect().height;
+
+            let rangeX_1 = address.getBoundingClientRect().left;
+            let rangeX_2 = rangeX_1 + address.getBoundingClientRect().width;
+
+            if (positionY >= rangeY_1 && positionY <= rangeY_2) {
+                if (positionX >= rangeX_1 && positionX <= rangeX_2) {
+                    img_value = 1;
+                    animate(1);
+
+                }
+
+            }
+            else {
+                img_value = 0;
+                animate(0);
+            }
+
+
+        }
+
+        // project - 2
+        let address_second = document.querySelector(".project-2");
+        let address_2 = document.querySelector(".project-content-2");
+        let asset_2 = document.querySelector(".asset-2");
+        let year_2 = document.querySelector(".project-year-2");
+
+        function openLink2() {
+            address_second.addEventListener("click", function () { window.open("https://github.com/ANSHPG/WeatherApp-ANSHP", "_blank"); })
+        }
+        openLink2();
+
+        function animate_2(value) {
+            if (value == 1) {
+                gsap.to(address_2, {
+                    opacity: 0.3,
+                    x: '40',
+                    ease: Power3,
+                    duration: 0.5
+                })
+                document.documentElement.style.cursor = 'none';
+
+                let position_diffX = positionX - address_second.getBoundingClientRect().left - (asset_2.getBoundingClientRect().width / 2 - 30); // - 165
+                let position_diffY = positionY - address_second.getBoundingClientRect().top - (asset_2.getBoundingClientRect().height / 2 - 30);  // - 122
+
+                rotate_diff = positionX - position_previousX;
+                position_previousX = positionX;
+
+                gsap.to(asset_2, {
+                    opacity: 1,
+                    ease: Power1,
+                    top: position_diffY,
+                    left: position_diffX,
+                    rotate: gsap.utils.clamp(-15, 15, rotate_diff)
+                })
+
+                gsap.to(year_2, {
+                    opacity: 0.3,
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(cursor, {
+                    width: 60,
+                    height: 60,
+                    ease: Power3,
+                    duration: 0.3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 1,
+                    ease: Power3,
+                    duration: 0.3
+                })
+            }
+            else {
+
+                document.documentElement.style.cursor = 'auto';
+
+                gsap.to(address_2, {
+                    opacity: 0.6,
+                    x: '0',
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(asset_2, {
+                    opacity: 0,
+                    ease: Power1
+                })
+
+                gsap.to(year_2, {
+                    opacity: 1,
+                    ease: Power3
+                })
+
+                gsap.to(cursor, {
+                    width: 12,
+                    height: 12,
+                    ease: Power3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 0,
+                    ease: Power3,
+                })
+            }
+        }
+
+        function project2() {
+
+            let rangeY_1 = address_second.getBoundingClientRect().top;
+            let rangeY_2 = rangeY_1 + address_second.getBoundingClientRect().height;
+
+            let rangeX_1 = address_second.getBoundingClientRect().left;
+            let rangeX_2 = rangeX_1 + address_second.getBoundingClientRect().width;
+
+            if (positionY >= rangeY_1 && positionY <= rangeY_2) {
+                if (positionX >= rangeX_1 && positionX <= rangeX_2) {
+                    img_value = 1;
+                    animate_2(1);
+                }
+            }
+            else {
+                img_value = 0;
+                animate_2(0);
+            }
+
+
+        }
+
+        // project 3
+
+        let address_third = document.querySelector(".project-3");
+        let address_3 = document.querySelector(".project-content-3");
+        let asset_3 = document.querySelector(".asset-3");
+        let year_3 = document.querySelector(".project-year-3");
+
+        function openLink3() {
+            address_third.addEventListener("click", function () { window.open("https://github.com/ANSHPG/SPHERE-ANSHP", "_blank"); })
+        }
+        openLink3();
+
+        function animate_3(value) {
+            if (value == 1) {
+                gsap.to(address_3, {
+                    opacity: 0.3,
+                    x: '40',
+                    ease: Power3,
+                    duration: 0.5
+                })
+                document.documentElement.style.cursor = 'none';
+
+                let position_diffX = positionX - address_third.getBoundingClientRect().left - (asset_3.getBoundingClientRect().width / 2 - 30); // - 165
+                let position_diffY = positionY - address_third.getBoundingClientRect().top - (asset_3.getBoundingClientRect().height / 2 - 30);  // - 122
+
+                rotate_diff = positionX - position_previousX;
+                position_previousX = positionX;
+
+                gsap.to(asset_3, {
+                    opacity: 1,
+                    ease: Power1,
+                    top: position_diffY,
+                    left: position_diffX,
+                    rotate: gsap.utils.clamp(-15, 15, rotate_diff)
+                })
+
+                gsap.to(year_3, {
+                    opacity: 0.3,
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(cursor, {
+                    width: 60,
+                    height: 60,
+                    ease: Power3,
+                    duration: 0.3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 1,
+                    ease: Power3,
+                    duration: 0.3
+                })
+            }
+            else {
+
+                document.documentElement.style.cursor = 'auto';
+
+                gsap.to(address_3, {
+                    opacity: 0.6,
+                    x: '0',
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(asset_3, {
+                    opacity: 0,
+                    ease: Power1
+                })
+
+                gsap.to(year_3, {
+                    opacity: 1,
+                    ease: Power3
+                })
+
+                gsap.to(cursor, {
+                    width: 12,
+                    height: 12,
+                    ease: Power3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 0,
+                    ease: Power3,
+                })
+            }
+        }
+
+        function project3() {
+
+            let rangeY_1 = address_third.getBoundingClientRect().top;
+            let rangeY_2 = rangeY_1 + address_third.getBoundingClientRect().height;
+
+            let rangeX_1 = address_third.getBoundingClientRect().left;
+            let rangeX_2 = rangeX_1 + address_third.getBoundingClientRect().width;
+
+            if (positionY >= rangeY_1 && positionY <= rangeY_2) {
+                if (positionX >= rangeX_1 && positionX <= rangeX_2) {
+                    img_value = 1;
+                    animate_3(1);
+                }
+            }
+            else {
+                img_value = 0;
+                animate_3(0);
+            }
+
+
+        }
+
+        // project 4
+
+        let address_fourth = document.querySelector(".project-4");
+        let address_4 = document.querySelector(".project-content-4");
+        let asset_4 = document.querySelector(".asset-4");
+        let year_4 = document.querySelector(".project-year-4");
+
+        function openLink4() {
+            address_fourth.addEventListener("click", function () { window.open("https://github.com/ANSHPG/SPOTIFY-ANSHP", "_blank"); })
+        }
+        openLink4();
+
+        function animate_4(value) {
+            if (value == 1) {
+                gsap.to(address_4, {
+                    opacity: 0.3,
+                    x: '40',
+                    ease: Power3,
+                    duration: 0.5
+                })
+                document.documentElement.style.cursor = 'none';
+
+                let position_diffX = positionX - address_fourth.getBoundingClientRect().left - (asset_4.getBoundingClientRect().width / 2 - 30); // - 165
+                let position_diffY = positionY - address_fourth.getBoundingClientRect().top - (asset_4.getBoundingClientRect().height / 2 - 30);  // - 122
+
+                rotate_diff = positionX - position_previousX;
+                position_previousX = positionX;
+
+                gsap.to(asset_4, {
+                    opacity: 1,
+                    ease: Power1,
+                    top: position_diffY,
+                    left: position_diffX,
+                    rotate: gsap.utils.clamp(-15, 15, rotate_diff)
+                })
+
+                gsap.to(year_4, {
+                    opacity: 0.3,
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(cursor, {
+                    width: 60,
+                    height: 60,
+                    ease: Power3,
+                    duration: 0.3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 1,
+                    ease: Power3,
+                    duration: 0.3
+                })
+            }
+            else {
+
+                document.documentElement.style.cursor = 'auto';
+
+                gsap.to(address_4, {
+                    opacity: 0.6,
+                    x: '0',
+                    ease: Power3,
+                    duration: 0.5
+                })
+
+                gsap.to(asset_4, {
+                    opacity: 0,
+                    ease: Power1
+                })
+
+                gsap.to(year_4, {
+                    opacity: 1,
+                    ease: Power3
+                })
+
+                gsap.to(cursor, {
+                    width: 12,
+                    height: 12,
+                    ease: Power3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 0,
+                    ease: Power3,
+                })
+            }
+        }
+
+        function project4() {
+
+            let rangeY_1 = address_fourth.getBoundingClientRect().top;
+            let rangeY_2 = rangeY_1 + address_fourth.getBoundingClientRect().height;
+
+            let rangeX_1 = address_fourth.getBoundingClientRect().left;
+            let rangeX_2 = rangeX_1 + address_fourth.getBoundingClientRect().width;
+
+            if (positionY >= rangeY_1 && positionY <= rangeY_2) {
+                if (positionX >= rangeX_1 && positionX <= rangeX_2) {
+                    img_value = 1;
+                    animate_4(1);
+                }
+            }
+            else {
+                img_value = 0;
+                animate_4(0);
+            }
+
+
+        }
+
+        // cursor animation 
+
+        function cursor_project() {
+            if (positionX > address.getBoundingClientRect().left && positionX < address.getBoundingClientRect().left + address.getBoundingClientRect().width) {
+
+                if (positionY > address.getBoundingClientRect().top && positionY < address.getBoundingClientRect().top + address.getBoundingClientRect().height) {
+                    change_cursor(1);
+                }
+
+                if (positionY > address_second.getBoundingClientRect().top && positionY < address_second.getBoundingClientRect().top + address_second.getBoundingClientRect().height) {
+                    change_cursor(1);
+                }
+
+                if (positionY > address_third.getBoundingClientRect().top && positionY < address_third.getBoundingClientRect().top + address_third.getBoundingClientRect().height) {
+                    change_cursor(1);
+                }
+
+                if (positionY > address_fourth.getBoundingClientRect().top && positionY < address_fourth.getBoundingClientRect().top + address_fourth.getBoundingClientRect().height) {
+                    change_cursor(1);
+                }
+            }
+        }
+
+        function change_cursor(value) {
+            if (value == 1) {
+                gsap.to(cursor, {
+                    width: 60,
+                    height: 60,
+                    ease: Power3,
+                    duration: 0.3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 1,
+                    ease: Power3,
+                    duration: 0.3
+                })
+            }
+            else {
+                gsap.to(cursor, {
+                    width: 12,
+                    height: 12,
+                    ease: Power3
+                })
+
+                gsap.to(cursor_content, {
+                    opacity: 0,
+                    ease: Power3,
+                })
+            }
+        }
+
+        function update() {
+
+            project1();
+            project2();
+            project3();
+            project4();
+
+            // move_cursor();
+            // cursor_skew();
+            cursor_project();
+            // menu_modify();
+            // mouseOffLimit();
+            // setTimeout(menu_modify(), 1500)
+
+
+            if (positionX > address.getBoundingClientRect().left + address.getBoundingClientRect().width) {
+                animate(0);
+                animate_2(0);
+                animate_3(0);
+                animate_4(0);
+            }
+            if (positionX < address.getBoundingClientRect().left) {
+                animate(0);
+                animate_2(0);
+                animate_3(0);
+                animate_4(0);
+            }
+            window.requestAnimationFrame(update);
+
+        }
+        update();
+
+    </script>
+</body>
+
+</html>
